@@ -24,8 +24,8 @@ module.exports.anotherName = a;
 module.exports = a; // when we have one export
 
 // require (load/import) module:
-const require1 = require('path');
-// parameter => path of module file [or] module name (for built-in modules)
+const foo = require('path');
+// parameter => path of module file [or] module name (for core modules)
 // => returns 'exports' object of that module.
 
 /*
