@@ -1,19 +1,21 @@
 // module object:
-// Module {
-//   id: '.',
-//   path: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module',
-//   exports: {},
-//   filename: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module\\Module.js',
-//   loaded: false,
-//   children: [],
-//   paths: [
-//     'M:\\Coding\\Node.js\\Node.js_Topics\\Module\\node_modules',
-//     'M:\\Coding\\Node.js\\Node.js_Topics\\node_modules',
-//     'M:\\Coding\\Node.js\\node_modules',
-//     'M:\\Coding\\node_modules',
-//     'M:\\node_modules'
-//   ]
-// }
+/*
+Module {
+  id: '.',
+  path: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module',
+  exports: {},
+  filename: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module\\Module.js',
+  loaded: false,
+  children: [],
+  paths: [
+    'M:\\Coding\\Node.js\\Node.js_Topics\\Module\\node_modules',
+    'M:\\Coding\\Node.js\\Node.js_Topics\\node_modules',
+    'M:\\Coding\\Node.js\\node_modules',
+    'M:\\Coding\\node_modules',
+    'M:\\node_modules'
+  ]
+}
+*/
 
 // export (creating) module:
 function a() {}
@@ -22,25 +24,30 @@ module.exports.anotherName = a;
 module.exports = a; // when we have one export
 
 // require (load/import) module:
-const require1 = require('path'); // parameter => path of module file [or] module name (for built-in modules)
+const require1 = require('path');
+// parameter => path of module file [or] module name (for built-in modules)
 // => returns 'exports' object of that module.
 
-// Module Wrapper Function:
-// node.js doesn't execute code directory!
-// it wraps code inside this:
-// (function(exports, module, __filename, __dirname) {code}) => IIFE
-// and then, execute it.
+/*
+Module Wrapper Function:
+node.js doesn't execute code directory!
+it wraps code inside this:
+(function(exports, module, __filename, __dirname) {code}) => IIFE
+and then, execute it.
+ */
 
 // Path Module:
 const path = require('path');
 const pathObject = path.parse(__filename);
-// {
-//   root: 'M:\\',
-//   dir: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module', // directory of the folder contains file.
-//   base: 'Module.js',
-//   ext: '.js', // extension
-//   name: 'Module'
-// }
+/*
+{
+  root: 'M:\\',
+  dir: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module', // directory of the folder contains file.
+  base: 'Module.js',
+  ext: '.js', // extension
+  name: 'Module'
+}
+*/
 
 // OS (Operating System) Module:
 const os = require('os');
@@ -67,9 +74,26 @@ const emitter = new EventEmitter();
 emitter.on('event', (arg1, arg2) => {
     console.log('Listener called');
 });
-// on === adListener
+// on === addListener
 // 'event' => eventName
 emitter.emit('event', /*args:*/ 1, 'a'); // Raise an event
 
 // HTTP Module:
+const http = require('http');
+// http.Server => net.Server => EventEmitter
+const server = http.createServer((req, res) => {
+    // url => web address
+    // here => address in localhost
+    if (req.url === '/') {
+        res.write('Hello World');
+        res.end();
+    }
 
+    if (req.url === '/api/courses') {
+        res.write(JSON.stringify([1, 2, 3]));
+        res.end();
+    }
+});
+
+server.listen(3000); // server is listening to port 3000, for connections (requests).
+console.log('Listening for port 3000...');
