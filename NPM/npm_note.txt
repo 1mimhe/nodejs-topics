@@ -1,0 +1,20 @@
+install a specific version of npm:
+npm i -g npm@Version
+-g => globally
+
+make package.json:
+npm init
+and then, answer to some question.
+if you don't want to answer:
+mpm init --yes
+
+install a package:
+npm i NameOfPackage
+npm i NameOfPackage@Version
+after install package;
+name and version of that package, will be added to 'dependencies' in package.json,
+and store the package and its dependencies in 'node_modules' folder.
+
+We don't need to push 'node_modules' folder in our repository.(ignore)
+Because our dependencies and their version are included in 'package.json',
+and just with 'npm i' command, the contents of the folder will be downloaded again.
