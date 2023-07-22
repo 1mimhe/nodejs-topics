@@ -1,5 +1,4 @@
-const _ = require('underscore');
-// It is not necessary to write the exact address of the package, or file name.
-// what we think node about package name: core module => file or folder => node_modules
-
-console.log(_.contains([1, 2, 3], 3)); // true
+// version 1.0.0
+module.exports.add = function (a, b) { return a + b; };
+// version 1.1.0
+module.exports.multiply = function (a, b) { return a * b; };

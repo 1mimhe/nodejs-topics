@@ -6,7 +6,7 @@ make package.json:
 npm init
 and then, answer to some question.
 if you don't want to answer:
-mpm init --yes
+npm init --yes
 
 install a package:
 npm i NameOfPackage
@@ -15,6 +15,51 @@ after install package;
 name and version of that package, will be added to 'dependencies' in package.json,
 and store the package and its dependencies in 'node_modules' folder.
 
+uninstall a package:
+npm un NameOfPackage
+
 We don't need to push 'node_modules' folder in our repository.(ignore)
 Because our dependencies and their version are included in 'package.json',
 and just with 'npm i' command, the contents of the folder will be downloaded again.
+
+Semantic Versioning:
+0.0.0 => Major.Minor.Patch
+When changes?
+Major => breaks the API
+Minor => Add features (without breaking the API)
+Patch => Bug fixes
+
+When we 'npm i' or 'npm update', which version of dependencies will be installed?
+~(tilde): ~0.0.0 => 0.0.x (the newest)
+^(carat): ^0.0.0 => 0.x (the newest)
+nothing: 0.0.0 => Exactly the same version will be installed.
+
+listing the installed packages (dependencies):
+npm list
+npm list --depth=0
+
+listing update of the installed packages:
+npm outdated
+
+update to latest version:
+npm i -g npm-check-updates
+check the updates we do:
+npm-check-updates [or] ncu
+and then, we should update 'package.json':
+ncu -u
+and then, update dependencies of those updates:
+npm i
+
+view 'package.json' file of a library:
+npm view NameOfPackage ?NameOfAttributeOfJSON
+
+updating our published package:
+npm version major/minor/patch => which update we want to do?
+npm publish => publish the update
+
+Dependencies:
+Application dependencies.
+DevDependencies:
+dependencies that are used during application development.
+install:
+npm i NameOfPackage --save-dev
