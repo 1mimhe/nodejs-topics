@@ -67,6 +67,13 @@ fs.readdir('./', (err, files2) => {
     else console.log('Result', files2);
 });
 
+// write data:
+const bookJSON = JSON.stringify({title: 'Crime and Punishment'});
+fs.writeFileSync('file.json', bookJSON);
+// read data:
+const dataBuffer = fs.readFileSync('file.json');
+const data = JSON.parse(dataBuffer.toString());
+
 // Events Module: [Event: A signal that something has happened.]
 const EventEmitter = require('events');
 const emitter = new EventEmitter();
