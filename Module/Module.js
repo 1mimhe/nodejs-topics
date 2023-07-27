@@ -92,6 +92,7 @@ const server = http.createServer((req, res) => {
     // url => web address
     // here => address in localhost
     if (req.url === '/') {
+        // response:
         res.write('Hello World');
         res.end();
     }

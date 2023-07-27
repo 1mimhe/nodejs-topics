@@ -33,13 +33,6 @@ yargs.argv:
  */
 
 // create command
-// yargs.command({
-//     command: 'remove',
-//     describe: 'Remove a note',
-//     handler() {
-//         console.log('Removing the note');
-//     }
-// });
 yargs.command({
     command: 'add',
     describe: 'Adds two number',
@@ -62,7 +55,7 @@ yargs.command({
         Title: ${argv.title}
         Body: ${argv.body}`);
     }
-})
+});
 // use command => 'node index.js add'
 
 // 'node index.js --help':
@@ -81,4 +74,3 @@ Options:
 
 yargs.parse(); // to set above changes
 // and returns yargs.argv
-// === console.log(yargs.argv)
