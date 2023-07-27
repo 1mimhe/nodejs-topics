@@ -1,0 +1,11 @@
+REST defines a set of conventions for creating HTTP services:
+- POST: to create a resource
+- PUT: to update it
+- GET: to read it
+- DELETE: to delete it
+
+RESTful Services (APIs):
+Representational State Transfer (REST) is an architectural style
+that defines a set of constraints to be used for creating web services.
+REST API is a way of accessing web services in a simple and flexible way without having any processing.
+Web services that implement REST architecture are called RESTful web services.
