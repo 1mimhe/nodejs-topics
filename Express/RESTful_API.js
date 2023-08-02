@@ -1,8 +1,9 @@
 const Joi = require('joi');
 const express = require('express');
 const app = express();
+require('dotenv').config(); // for using .env
 
-app.use(express.json());
+app.use(express.json()); // This is a built-in middleware function. It parses incoming requests with JSON payloads.
 
 const courses = [
     {id: 1, name: 'Course1'},
@@ -10,6 +11,7 @@ const courses = [
     {id: 3, name: 'Course3'}
 ];
 
+// path (url), handlers (route handled)
 app.get('/', (req, res) => {
     res.send('Home.');
 });
@@ -24,7 +26,7 @@ app.get('/api/courses/:id', (req, res) => {
 // http://localhost:3000/api/courses/1000?sortBy=popularity => req.query: {"sortBy":"popularity"}
 
 app.post('/api/courses', (req, res) => {
-    const { error } = validateCourse(req.body);
+    const {error} = validateCourse(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const course = {
@@ -62,14 +64,13 @@ app.delete('/api/courses/:id', (req, res) => {
 // better way (using 'joi' package):
 function validateCourse(course) {
     // schema: defines the shape of our object
-    const schema = {
+    const schema = Joi.object({
         name: Joi.string().min(3).required()
-    };
-    return Joi.valid(course, schema); // return: {error:null, value:{},...} / {error: ..., value: null,...}
+    });
+    return schema.validate(course); // return: {error:null, value:{},...} / {error: ..., value: null,...}
 }
 
 // using environment variables
-require('dotenv').config();
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Listening to port ${port}...`)); // port, callback?,...
 // -----> to call http services => 'Postman' app or extension
