@@ -1,6 +1,6 @@
 // environment variables: its value sets outside app.
 // how to set:
-// 1. 'PORT=... node app.js' DOESN'T WORK!!!
+// 1. 'set PORT=...'
 // 2. make '.env' file in root of app and add variables
 
 // how to read:
