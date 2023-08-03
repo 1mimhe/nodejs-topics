@@ -58,6 +58,10 @@ app.delete('/api/courses/:id', (req, res) => {
     res.send(course); // return deleted course
 });
 
+// app.all => it matches all HTTP verbs.
+app.all('/api/*', loadUser);
+function loadUser(res, req) {}
+
 /* Input Validation:
     if (typeof req.body.name && req.body.name.length < 3 && !req.body.name) { // ... }
 */
