@@ -1,9 +1,13 @@
+const path = require('path');
 const Joi = require('joi');
 const express = require('express');
 const app = express();
 require('dotenv').config(); // for using .env
 
+const publicDirectoryPath = path.join(__dirname, '../public');
+
 app.use(express.json()); // This is a built-in middleware function. It parses incoming requests with JSON payloads.
+app.use(express.static(publicDirectoryPath));
 
 const courses = [
     {id: 1, name: 'Course1'},
@@ -11,15 +15,15 @@ const courses = [
     {id: 3, name: 'Course3'}
 ];
 
-// path (url), handlers (route handled)
+// .METHOD(path (url), handlers (route handler))
 app.get('/', (req, res) => {
-    res.send('Home.');
-});
+    res.send('Home.'); // we can send back: html, object, values
+}); // root route. because of static assert, 'index.html', never will be run.
 
 // route parameters (essential/required data) => /:param1/:param2/...
 // query string parameters (additional data) => /:params?param1=name&param2=id$...
 app.get('/api/courses/:id', (req, res) => {
-    const course = courses.find(c => c.id === req.params.id);
+    const course = courses.find(c => c.id === Number(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID was not found.');
     res.send(course);
 });
@@ -38,7 +42,7 @@ app.post('/api/courses', (req, res) => {
 });
 
 app.put('/api/courses/:id', (req, res) => {
-    const course = courses.find(c => c.id === req.params.id);
+    const course = courses.find(c => c.id === Number(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID was not found.');
 
     const { error} = validateCourse(req.body);
@@ -49,7 +53,7 @@ app.put('/api/courses/:id', (req, res) => {
 });
 
 app.delete('/api/courses/:id', (req, res) => {
-    const course = courses.find(c => c.id === req.params.id);
+    const course = courses.find(c => c.id === Number(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID was not found.');
 
     const index = courses.indexOf(course);
@@ -80,4 +84,4 @@ function validateCourse(course) {
 // using environment variables
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Listening to port ${port}...`)); // port, callback?,...
-// -----> to call http services => 'Postman' app or extension
+// -----> to call http services => 'Postman' app or npm packages

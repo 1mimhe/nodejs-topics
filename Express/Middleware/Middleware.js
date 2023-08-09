@@ -6,8 +6,8 @@ Middleware functions are functions that have access to the request object (req),
 the response object (res), and the next middleware function in the application’s request-response cycle.
 The next middleware function is commonly denoted by a variable named next.
  */
-/*
-app.use([path,] callback [, callback...]):
+/*.
+app.use([path, ] callback [, callback...]):
 the middleware function is executed when the base of the requested path matches path.
 */
 /*
@@ -38,5 +38,7 @@ app.use(express.static('pio'));
 // serves static assets such as HTML files, images,...
 // http://localhost:PORT/FileName => http://localhost:3000/readme.txt
 // When a file is not found, instead of sending a 404 response, it calls next().
+
+// *** In project, we put asserts in a folder named 'public'.
 
 // Third-party Middlewares => https://expressjs.com/en/resources/middleware.html
