@@ -2,7 +2,7 @@ const path = require('path');
 const Joi = require('joi');
 const express = require('express');
 const app = express();
-require('dotenv').config(); // for using .env
+require('dotenv').config(); // for using .env (.env placed in the root of this file)
 
 const publicDirectoryPath = path.join(__dirname, '../public');
 
@@ -15,10 +15,20 @@ const courses = [
     {id: 3, name: 'Course3'}
 ];
 
+// app.all => it matches all HTTP verbs.
+app.all('/api/*', loadUser);
+function loadUser(req, res, next) {
+    // ...
+    res.send('aaa');
+    next();
+}
+
 // .METHOD(path (url), handlers (route handler))
 app.get('/', (req, res) => {
     res.send('Home.'); // we can send back: html, object, values
-}); // root route. because of static assert, 'index.html', never will be run.
+}); // root route.
+// According to the order in which the handlers are placed, their match is checked with url.
+// because of using static asserts place and 'index.html' assert, root handler never will be run.
 
 // route parameters (essential/required data) => /:param1/:param2/...
 // query string parameters (additional data) => /:params?param1=name&param2=id$...
@@ -28,6 +38,12 @@ app.get('/api/courses/:id', (req, res) => {
     res.send(course);
 });
 // http://localhost:3000/api/courses/1000?sortBy=popularity => req.query: {"sortBy":"popularity"}
+
+// 404 Page
+// * => match anything that hasn't been matched so far.
+app.get('*', (req, res) => {
+    res.send('My 404 Page.');
+});
 
 app.post('/api/courses', (req, res) => {
     const {error} = validateCourse(req.body);
@@ -61,13 +77,6 @@ app.delete('/api/courses/:id', (req, res) => {
 
     res.send(course); // return deleted course
 });
-
-// app.all => it matches all HTTP verbs.
-app.all('/api/*', loadUser);
-function loadUser(res, req, next) {
-    // ...
-    next();
-}
 
 /* Input Validation:
     if (typeof req.body.name && req.body.name.length < 3 && !req.body.name) { // ... }

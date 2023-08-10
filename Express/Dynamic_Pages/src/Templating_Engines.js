@@ -11,10 +11,11 @@ const hbs = require('hbs'); // for customize partials directory
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
 
-// setting up templating engine:
+// setting up templating engine
 app.set('view engine', 'hbs'); // we tell Express which templating engine we install.
-app.set('views', viewsPath); // customizing the views directory
-hbs.registerPartial(partialsPath);
+// customizing the views and partials directory
+app.set('views', viewsPath);
+hbs.registerPartials(partialsPath);
 
 // render a view
 app.get('/', (req, res) => {
