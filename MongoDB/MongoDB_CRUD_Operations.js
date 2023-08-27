@@ -75,4 +75,57 @@ async function getCourse() {
 // { author: /.*pattern.*/i }
 
 // createCourse();
-getCourse();
+// getCourse();
+
+// Updating a Document
+// 1. Query First
+async function updateCourse1(id) {
+    const course = await Course.findById(id); // id: _id
+    if (!course) return;
+
+    course.set({
+        isPublished: false,
+        author: 'Another author'
+    });
+    /*
+    course.isPublished = false;
+    course.author = 'Another author';
+     */
+    const result = await course.save();
+    console.log(result);
+}
+
+// 2. Update First
+async function updateCourse2(id) {
+    const result = await Course.updateOne({_id: id}, {
+        $set: {
+            author: 'Jason',
+            isPublished: false
+        }, // $set: is an update operator https://www.mongodb.com/docs/manual/reference/operator/update/
+        $unset: {tags: 1}
+    });
+    console.log(result);
+
+    // if we want to give last version of document
+    /*
+    Course.findByIdAndUpdate(id, <options>, {new: false/true});
+    // new => return new version/old version => default = false
+     */
+}
+
+// Update Operators:
+// $inc: Increments the value of the field by the specified amount directly.
+// $max/$min: Only updates the field if the specified value is greater/less than the existing field value.
+// $rename: Renames a field.
+// $set: Sets the value of a field in a document.
+// $unset: Removes the specified field from a document.
+
+async function deleteCourse(id) {
+    const course = Course.deleteOne({_id: id});
+    // const course = Course.findByIdAndRemove(id);
+    console.log(course);
+}
+
+// mongoimport command is used to import your content from an extended JSON, ...
+// mongoimport --db <db-name> --collection <collection-name> --file <file-name>
+// mongoexport --db <db-name> --collection <collection-name> --out=<file-name>
