@@ -17,6 +17,7 @@
     "mongodb": "^6.0.0",
     "mongoose": "^7.4.4",
     "node-fetch": "^2.6.12",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "validator": "^13.11.0"
   }
 }

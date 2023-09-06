@@ -1,6 +1,11 @@
 const mongoose = require('mongoose'); // a simple api for work with a MongoDB DataBase
 
-mongoose.connect('mongodb://127.0.0.1:27017/test') // we already don't have this database. mongodb automatically creates this for us.
+// if we already don't have this database. mongodb automatically creates this for us.
+mongoose.connect('mongodb://127.0.0.1:27017/test', {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+})
     .then(() => console.log('Connected to MongoDB...'))
     .catch((e) => console.log(e.message));
 
@@ -19,7 +24,7 @@ const courseSchema = new mongoose.Schema({
 // schema types: String, Number, Date, Buffer, Boolean, ObjectID, Array
 
 // we compile a schema to a model for create a class.
-// first arg: is the singular name of the collection that this model is for.
+// first arg: is the singular name of the collection that this model is for. * Course => courses
 const Course = mongoose.model('Course', courseSchema);
 
 async function createCourse() {
@@ -97,19 +102,18 @@ async function updateCourse1(id) {
 
 // 2. Update First
 async function updateCourse2(id) {
-    const result = await Course.updateOne({_id: id}, {
+    const result = await Course.findByIdAndUpdate({_id: id}, {
         $set: {
             author: 'Jason',
             isPublished: false
         }, // $set: is an update operator https://www.mongodb.com/docs/manual/reference/operator/update/
         $unset: {tags: 1}
-    });
+    }, { new: true, runValidators: true});
     console.log(result);
 
-    // if we want to give last version of document
     /*
-    Course.findByIdAndUpdate(id, <options>, {new: false/true});
-    // new => return new version/old version => default = false
+    {new: false/true}
+     new => return new version/old version => default = false
      */
 }
 
