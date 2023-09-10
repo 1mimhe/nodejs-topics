@@ -11,6 +11,7 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true,
         // Sanitization:
+        unique: true, // we will not store two documents with the same author in mongodb
         minLength: 5,
         maxLength: 250,
         // lowercase: true
