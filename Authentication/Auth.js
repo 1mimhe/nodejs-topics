@@ -1,5 +1,5 @@
 // Authentication is the process of identifying if the user is who they claim they are.
-
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -70,7 +70,18 @@ app.post('/api/auth', async (req, res) => {
        const validPassword = await bcrypt.compare(req.body.password, user.password);
        if (!validPassword) return res.status(400).send('Invalid email or password.');
 
-       res.send(true);
+       // first-arg: payload
+       // second-arg: secretOrPrivateKey => will be used for create that digital signature.
+       // *** We put secret in an environment variable. We should not store it in our source code.
+       const token = jwt.sign({ _id: user._id }, 'something');
+       res.send(token);
+       /*
+       token:
+       {
+        "_id": ...
+        "iat": the time the token was created.
+       }
+        */
    } catch (e) {
        res.status(500).send();
    }
