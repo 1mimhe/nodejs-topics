@@ -1,11 +1,24 @@
 // Authentication is the process of identifying if the user is who they claim they are.
+const config = require('config');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const _ = require('lodash');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
-const User = mongoose.model('User', {
+// checking for environment variable existence
+if (!config.get('jwtPrivateKey')) {
+    throw new Error('jwtPrivateKey is not defined.');
+}
+
+app.use(express.json());
+
+mongoose.connect('mongodb://127.0.0.1:27017/auth');
+
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -19,7 +32,7 @@ const User = mongoose.model('User', {
         required: true,
         unique: true,
         validate: {
-            validator: (v) => Joi.isEmail(v),
+            validator: (v) => validator.isEmail(v),
             message: "Your email is not valid."
         }
     },
@@ -37,9 +50,15 @@ const User = mongoose.model('User', {
     }
 });
 
+userSchema.methods.generateAuthToken = function () {
+    return jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+}
+
+const User = mongoose.model('User', );
+
 // Register User
 app.post('/api/users', async (req, res) => {
-    let user = await User.find({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already registered.');
 
     // salt: is a random string that added before or after the password.
@@ -55,7 +74,12 @@ app.post('/api/users', async (req, res) => {
 
     try {
         const result = await user.save();
-        res.send(_.pick(result, ['_id', 'name', 'email']));
+        // const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+        const token = user.generateAuthToken();
+        res.header('x-auth-token', token).send(_.pick(result, ['_id', 'name', 'email']));
+        // An HTTP header is a field of an HTTP request or response
+        // that passes additional context and metadata about the request or response.
+        // like Age, Location or Server, ...
     } catch (e) {
         res.status(500).send(e);
     }
@@ -64,7 +88,7 @@ app.post('/api/users', async (req, res) => {
 // Authentication
 app.post('/api/auth', async (req, res) => {
    try {
-       const user = await User.find({ email: req.body.email });
+       const user = await User.findOne({ email: req.body.email });
        if (!user) return res.status(400).send('Invalid email or password.');
 
        const validPassword = await bcrypt.compare(req.body.password, user.password);
@@ -73,7 +97,8 @@ app.post('/api/auth', async (req, res) => {
        // first-arg: payload
        // second-arg: secretOrPrivateKey => will be used for create that digital signature.
        // *** We put secret in an environment variable. We should not store it in our source code.
-       const token = jwt.sign({ _id: user._id }, 'something');
+       // const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+       const token = user.generateAuthToken();
        res.send(token);
        /*
        token:
@@ -83,6 +108,8 @@ app.post('/api/auth', async (req, res) => {
        }
         */
    } catch (e) {
-       res.status(500).send();
+       res.status(500).send(e.message);
    }
 });
+
+app.listen(3000, () => console.log('Connected to port 3000...'));
