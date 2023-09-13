@@ -1,6 +1,11 @@
 require('dotenv').config();
 const config = require('config');
 
+// Node-config reads configuration files in the ./config directory for the running process,
+// typically the application root.
+// This can be overridden by setting the $NODE_CONFIG_DIR environment variable.
+// EX: process.env["NODE_CONFIG_DIR"] = __dirname + "/configDir/"; => before require('config');
+
 // our configurations => our environments
 // output base on our environment.
 console.log('App name: ' + config.get('name'));
