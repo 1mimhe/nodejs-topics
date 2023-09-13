@@ -23,6 +23,11 @@ const courseSchema = new mongoose.Schema({
 });
 // schema types: String, Number, Date, Buffer, Boolean, ObjectID, Array
 
+// we can also add a method to a schema:
+courseSchema.methods.doSomething = function () {
+    console.log('Name:' + this.name);
+}
+
 // we compile a schema to a model for create a class.
 // first arg: is the singular name of the collection that this model is for. * Course => courses
 const Course = mongoose.model('Course', courseSchema);
