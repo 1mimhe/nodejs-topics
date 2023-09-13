@@ -16,7 +16,9 @@ if (!config.get('jwtPrivateKey')) {
 
 app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/auth');
+mongoose.connect('mongodb://127.0.0.1:27017/auth')
+    .then(() => console.log('Connected to MongoDB...'))
+    .catch((e) => console.log(e.message));
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -54,10 +56,10 @@ userSchema.methods.generateAuthToken = function () {
     return jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
 }
 
-const User = mongoose.model('User', );
+const User = mongoose.model('User', userSchema);
 
 // Register User
-app.post('/api/users', async (req, res) => {
+app.post('/api/register', async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already registered.');
 
@@ -110,6 +112,27 @@ app.post('/api/auth', async (req, res) => {
    } catch (e) {
        res.status(500).send(e.message);
    }
+});
+
+// Authorization (with middleware)
+function auth(req, res, next) {
+    const token = req.header('x-auth-token');
+    if (!token) return res.status(401).send('Access denied. No token provided.');
+
+    try {
+        const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+        req.user = decoded;
+        next();
+    } catch (e) {
+        res.status(400).send('Invalid token.');
+    }
+}
+
+app.get('/api/users', auth, async (req, res) => {
+   const users = await User.find({});
+   if (!users.length) return res.status(404).send();
+
+   res.send(users);
 });
 
 app.listen(3000, () => console.log('Connected to port 3000...'));
