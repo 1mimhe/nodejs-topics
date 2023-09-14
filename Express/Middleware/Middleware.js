@@ -6,7 +6,7 @@ Middleware functions are functions that have access to the request object (req),
 the response object (res), and the next middleware function in the application’s request-response cycle.
 The next middleware function is commonly denoted by a variable named next.
  */
-/*.
+/*
 app.use([path, ] callback [, callback...]):
 the middleware function is executed when the base of the requested path matches path.
 */
@@ -28,6 +28,7 @@ app.use(auth);
 
 function auth(req, res, next) {
     console.log('Authenticating...');
+    req.user = {/* Something */}; // Make changes to the request and the response objects.
     next();
 }
 
