@@ -52,6 +52,7 @@ async function getCourse() {
             .find({author: 'Mammad', isPublished: true})
             .limit(2) // specifies the maximum number of documents the query will return.
             .select({name: 1, author: 1}); // select that property we want return.
+            // .select('-password') // All except the password will be returned.
             // .sort({ name: -1/1 })
             // .and([ {1}, {2} ])
             // .or([ {1}, {2} ]) ~= find({ 1, 2 })
