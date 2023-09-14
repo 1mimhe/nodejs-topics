@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const {MongoCursorInUseError} = require("mongodb");
 
 // checking for environment variable existence
 if (!config.get('jwtPrivateKey')) {
@@ -49,11 +50,15 @@ const userSchema = new mongoose.Schema({
             validator: (v) => validator.isStrongPassword(v),
             message: "Your password is not strong enough."
         }]
-    }
+    },
+    // Role-based Auth
+    isAdmin: Boolean
+    // roles: []
+    // operations: []
 });
 
 userSchema.methods.generateAuthToken = function () {
-    return jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+    return jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
 }
 
 const User = mongoose.model('User', userSchema);
@@ -71,7 +76,8 @@ app.post('/api/register', async (req, res) => {
     user = new User({
         name: req.body.name,
         email: req.body.email,
-        password: hashedPassword
+        password: hashedPassword,
+        isAdmin: false
     });
 
     try {
@@ -133,6 +139,21 @@ app.get('/api/users', auth, async (req, res) => {
    if (!users.length) return res.status(404).send();
 
    res.send(users);
+});
+
+// Role-based Auth
+function admin(req, res, next) {
+    if (!req.user.isAdmin) return res.status(403).send('Access denied.');
+
+    next();
+}
+
+app.delete('/:id', auth, admin, async (req, res) => {
+   const user = await User.findByIdAndRemove(req.body._id);
+
+   if (!user) return res.status(404);
+
+   res.send(user);
 });
 
 app.listen(3000, () => console.log('Connected to port 3000...'));

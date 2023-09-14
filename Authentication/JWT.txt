@@ -16,6 +16,9 @@ using public/private key pairs—you can be sure the senders are who they say th
 Additionally, as the signature is calculated using the header and the payload,
 you can also verify that the content hasn't been tampered with.
 
+*** We should not store tokens in a database. (if we do, we should encrypt that.[we can use https])
+we store them in the client.
+
 JWT Structure:
 Header.Payload.Signature
 
