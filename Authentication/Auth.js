@@ -57,8 +57,26 @@ const userSchema = new mongoose.Schema({
     // operations: []
 });
 
+// also, we can use 'pre' middleware to hash password
+// this middleware, execute a function before that method called.
+userSchema.pre('save', async function (next) {
+    /*
+    const user = this;
+
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 10);
+    }
+    */
+    next();
+});
+
 userSchema.methods.generateAuthToken = function () {
     return jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
+    // [options]:
+    // algorithm (default: HS256)
+    // expiresIn
+    // notBefore
+    // ...
 }
 
 const User = mongoose.model('User', userSchema);
@@ -68,9 +86,12 @@ app.post('/api/register', async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already registered.');
 
+    // we hash(encrypt) password, then store it to a database.
+    // the algorithm that hash password is not reversible.
     // salt: is a random string that added before or after the password.
     // first argument: number of rounds to use, defaults to 10 if omitted.
-    const salt = await bcrypt.genSalt(10);
+    // second argument: Salt length to generate or salt to use.
+    const salt = await bcrypt.genSalt(10); // Number of rounds to use, defaults to 10 if omitted.
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     user = new User({
@@ -121,24 +142,26 @@ app.post('/api/auth', async (req, res) => {
 });
 
 // Authorization (with middleware)
-function auth(req, res, next) {
+async function auth(req, res, next) {
     const token = req.header('x-auth-token');
     if (!token) return res.status(401).send('Access denied. No token provided.');
 
     try {
         const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-        req.user = decoded;
+        req.user = await User.findOne({ _id: decoded._id });
         next();
     } catch (e) {
         res.status(400).send('Invalid token.');
     }
 }
 
-app.get('/api/users', auth, async (req, res) => {
-   const users = await User.find({});
-   if (!users.length) return res.status(404).send();
-
-   res.send(users);
+app.get('/api/courses', auth, async (req, res) => {
+   try {
+       await req.user.populate('courses').exec();
+       res.send(req.user.courses);
+   } catch (e) {
+       res.status(500).send();
+   }
 });
 
 // Role-based Auth
@@ -148,8 +171,8 @@ function admin(req, res, next) {
     next();
 }
 
-app.delete('/:id', auth, admin, async (req, res) => {
-   const user = await User.findByIdAndRemove(req.body._id);
+app.delete('/users/:id', auth, admin, async (req, res) => {
+   const user = await User.findByIdAndRemove(req.params.id);
 
    if (!user) return res.status(404);
 
