@@ -25,19 +25,29 @@ let course = {
 */
 
 // Referencing Documents
-const Author = mongoose.model('Author', new mongoose.Schema({
+const authorSchema = new mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
         maxLength: 50
     },
-    courses: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Course' // tells Mongoose which model to use during population.
-        }
-    ]
-}));
+    // we shouldn't store courses twice.
+    // courses: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'Course' // tells Mongoose which model to use during population.
+    //     }
+    // ]
+});
+
+// A populated virtual contains documents from another collection.
+authorSchema.virtual('courses', {
+    ref: 'Course', // The model to use
+    localField: '_id', // the relationship side-1 (author's _id)
+    foreignField: 'author' // the relationship side-2 (property of the model => is an ObjectId)
+});
+
+const Author = mongoose.model('Author', authorSchema);
 
 const Course = mongoose.model('Course', new mongoose.Schema({
     name: {
@@ -73,7 +83,7 @@ async function createCourse(name, authorName) {
 
 async function listCourses() {
     const courses = await Course
-        .find()
+        .find({})
         .populate('author', 'name -_id'); // if it doesn't find the author, null will be assigned to author.
         // .populate({path: 'author', select: 'name -_id'})
         // .populate('category', 'name') // also we can populate multiple properties
@@ -86,7 +96,7 @@ async function listCourses() {
 // listCourses();
 
 // Embedded Documents
-const authorSchema = new mongoose.Schema({
+const authorSchema2 = new mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
@@ -107,7 +117,7 @@ const courseSchema = new mongoose.Schema({
         maxLength: 250
     },
     author: {
-        type: authorSchema,
+        type: authorSchema2,
         required: true
     }
 });

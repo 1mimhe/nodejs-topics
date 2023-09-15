@@ -27,6 +27,12 @@ const courseSchema = new mongoose.Schema({
 courseSchema.methods.doSomething = function () {
     console.log('Name:' + this.name);
 }
+// also, we have userSchema.statics.doSomething => User.doSomething
+
+// In Mongoose, a virtual is a property that is not stored in MongoDB.
+courseSchema.virtual('domain').get(function () {
+    return this.email.slice(this.email.indexOf('@') + 1);
+});
 
 // we compile a schema to a model for create a class.
 // first arg: is the singular name of the collection that this model is for. * Course => courses
