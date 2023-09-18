@@ -157,7 +157,7 @@ async function auth(req, res, next) {
 
 app.get('/api/courses', auth, async (req, res) => {
    try {
-       await req.user.populate('courses').exec();
+       await req.user.populate('courses');
        res.send(req.user.courses);
    } catch (e) {
        res.status(500).send();
