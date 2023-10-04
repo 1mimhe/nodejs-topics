@@ -1,7 +1,7 @@
 const path = require('path');
 const Joi = require('joi');
 const express = require('express');
-const app = express();
+const app = express(); // WE SHOULD HAVE A SINGLE INSTANCE OF THAT IN OUR APPLICATION.
 require('dotenv').config(); // for using .env (.env placed in the root of this file)
 
 const publicDirectoryPath = path.join(__dirname, '../public');

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const error = require('./error');
 
 router.get('/', (req, res, next) => {
     try {
@@ -9,5 +8,11 @@ router.get('/', (req, res, next) => {
         next(e);
     }
 });
+
+/*
+router.get('/users', async (req, res, next) => {
+    const users = await User.find({}); // Unhandled Promise Rejection
+});
+*/
 
 module.exports = router;
