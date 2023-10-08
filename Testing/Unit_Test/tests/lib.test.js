@@ -56,7 +56,7 @@ describe('getProduct', () => {
         const result = lib.getProduct();
 
         // toBe() vs. toEqual()
-        expect(result).toBe({ id: 1, price: 10, category: 'a' });
+//        expect(result).toBe({ id: 1, price: 10, category: 'a' });
         // FAILED: because this two object's references are not the same.
         expect(result).toEqual({ id: 1, price: 10, category: 'a' });
         // PASSED: because this object has the same properties.
