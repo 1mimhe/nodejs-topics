@@ -7,7 +7,8 @@ module.exports = async function (req, res, next) {
 
     try {
         const decoded = jwt.verify(token, 'jsonWebToken');
-        req.user = await User.findOne({ _id: decoded._id });
+        console.log(decoded)
+        req.user = decoded;
         next();
     } catch (e) {
         res.status(400).send('Invalid token.');

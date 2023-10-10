@@ -10,17 +10,32 @@ describe('/api/tasks', () => {
         server = require('../tasks');
     });
     afterEach(async () => {
-       server.close();
-       await Task.deleteMany({}); // we should remove our added data after test.
+        server.close();
+        await Task.deleteMany({}); // we should remove our added data after test.
     });
+
+    // For Clean Test (My Tests are not clean!):
+    // Define the happy path, and then in each test, we change
+    // one parameter that clearly aligns with the name of the test.
+    /*
+    let token;
+    let name;
+
+    const exec = async () => {
+        await request(server)
+            .post('/api/tasks')
+            .set('X-Auth_Token', token)
+            .send({ name });
+    }
+    */
 
     describe('GET /', () => {
         it('should return all tasks', async () => {
             await Task.insertMany([
-                { description: 'Task1' },
-                { description: 'Task2' },
-                { description: 'Task3' },
-                { description: 'Task4' }
+                {description: 'Task1'},
+                {description: 'Task2'},
+                {description: 'Task3'},
+                {description: 'Task4'}
             ]);
 
             const res = await request(server).get('/api/tasks');
@@ -30,10 +45,10 @@ describe('/api/tasks', () => {
             expect(res.body.some((t) => t.description === 'Task1'));
         });
     });
-    
+
     describe('GET /:id', () => {
         it('should return a task if valid id is passed', async () => {
-            const task = new Task({ description: 'New Task' });
+            const task = new Task({description: 'New Task'});
             await task.save();
 
             const res = await request(server).get('/api/tasks/' + task._id);
@@ -49,16 +64,41 @@ describe('/api/tasks', () => {
         });
     });
 
-    // Test Authorization
     describe('POST /', () => {
-        it('should return 401 if client is not logged in', async () => {
+        // Auth Test should be in a separate file.
+        // Test Authorization
+        it('should return 401 if no token is provided', async () => {
+            const token = '';
             const res = await request(server)
                 .post('/api/tasks')
-                // .send({ description: 'NEW TASK' });
+            // .send({ description: 'NEW TASK' });
 
             expect(res.status).toBe(401);
         });
 
+        it('should return 400 if token is not valid', async () => {
+            const token = 'a';
+
+            const res = await request(server)
+                .post('/api/tasks')
+                .set('X-Auth_Token', token)
+            // .send({});
+
+            expect(res.status).toBe(400);
+        });
+
+        it('should return 201 if token is valid', async () => {
+            const token = new User().generateAuthToken();
+
+            const res = await request(server)
+                .post('/api/tasks')
+                .set('X-Auth_Token', token)
+                .send({description: 'NEW TASK'});
+
+            expect(res.status).toBe(201);
+        });
+
+        // Post Test
         it('should return 400 if description is not required', async () => {
             const token = new User().generateAuthToken();
 
@@ -76,9 +116,9 @@ describe('/api/tasks', () => {
             const res = await request(server)
                 .post('/api/tasks')
                 .set('X-Auth_Token', token)
-                .send({ description: 'NEW TASK' });
+                .send({description: 'NEW TASK'});
 
-            const task = await Task.find({ description: 'NEW TASK' });
+            const task = await Task.find({description: 'NEW TASK'});
 
             expect(task).not.toBeNull();
             expect(res.status).toBe(201);
@@ -90,15 +130,10 @@ describe('/api/tasks', () => {
             const res = await request(server)
                 .post('/api/tasks')
                 .set('X-Auth_Token', token)
-                .send({ description: 'NEW TASK' });
+                .send({description: 'NEW TASK'});
 
             expect(res.body).toHaveProperty('_id');
             expect(res.body).toHaveProperty('description');
         });
     });
 });
-
-// For Clean Test (My Tests are not clean!):
-// Define the happy path, and then in each test, we change
-// one parameter that clearly aligns with the name of the
-// test.
