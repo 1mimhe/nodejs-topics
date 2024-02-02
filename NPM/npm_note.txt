@@ -53,6 +53,9 @@ npm i
 view 'package.json' file of a library:
 npm view NameOfPackage ?NameOfAttributeOfJSON
 
+openn document packge of a package:
+npm docs NameOfPackage
+
 updating our published package:
 npm version major/minor/patch => which update we want to do?
 npm publish => publish the update
@@ -63,3 +66,5 @@ DevDependencies:
 dependencies that are used during application development.
 install:
 npm i NameOfPackage --save-dev
+
+npm run <ScriptName>

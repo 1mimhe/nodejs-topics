@@ -1,3 +1,5 @@
+// module types: core/local/third-party
+
 // module object:
 /*
 Module {
@@ -84,24 +86,3 @@ emitter.on('event', (arg1, arg2) => {
 // on === addListener
 // 'event' => eventName
 emitter.emit('event', /*args:*/ 1, 'a'); // Raise an event
-
-// HTTP Module:
-const http = require('http');
-// http.Server => net.Server => EventEmitter
-const server = http.createServer((req, res) => {
-    // url => web address
-    // here => address in localhost
-    if (req.url === '/') {
-        // response:
-        res.write('Hello World');
-        res.end();
-    }
-
-    if (req.url === '/api/courses') {
-        res.write(JSON.stringify([1, 2, 3]));
-        res.end();
-    }
-});
-
-server.listen(3000); // server is listening to port 3000, for connections (requests).
-console.log('Listening for port 3000...');
