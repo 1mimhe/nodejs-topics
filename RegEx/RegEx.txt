@@ -1,0 +1,42 @@
+/expression/Flags
+
+Flags:
+g: global: search in all text.
+m: multi line: search in multi line.
+i: insensitive: case insensitive.
+
+* find 0-n
++ find almost 1
+? maximum 1
+
+[] denotes a character class:
+[A-Za-z0-9] all parts be 'or'
+[A-Z][0-9] all parts be 'and '
+
+we use \ before signs if we don't want to use them as a sign. => \+
+
+
+\d => match numbers (1 digit) [9, 5]
+\d+ => almost 1 digit [95]
+\D => ~\d
+
+() denotes a capturing group:
+Ex: (\+98|text) (^...) [not]
+
+\s => space
+
+\bsame\b => find exact same word
+
+^ => start with
+
+{min, max} => indicate the number of times to apply the preceding regular expression.
+
+Ex:
+Username: /^[a-zA-Z]{0,1}[a-zA-Z\_\.]{3,25}/
+
+Email: /(^[a-z][a-z0-9\_\.]{3,})\@([a-z]{3,10})([a-z]{2,10})/i
+[Grouping: ()()()()]
+
+Phone Number: /(\+?)(\d{2,3}?)([- ]?)(0?)(\d{3})([- ]?)(\d{3})([- ]?)(\d{4})/i
+Just Iran: /(\+?)(98?)([- ]?)(0?)(9\d{2})([- ]?)(\d{3})([- ]?)(\d{4})/i
+
