@@ -21,6 +21,12 @@ const server = http.createServer((request, response) => {
         response.write(JSON.stringify([1, 2, 3])); // just accept string as argument.
         response.end();
     }
+
+    if (request.url === '/xml') {
+        response.writeHead(200, { 'Content-Type': 'text/xml' });
+        response.write("<XML><KEY>I'm a key.</KEY></XML>>");
+        response.end();
+    }
 });
 
 server.listen(3000, () => {
