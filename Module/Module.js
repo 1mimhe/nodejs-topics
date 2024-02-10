@@ -57,25 +57,6 @@ const totalMemory = os.totalmem();
 const freeMemory = os.freemem();
 console.log(totalMemory, freeMemory);
 
-// FS (File System) Module:
-const fs = require('fs');
-
-// Synchronous readdir
-const files  = fs. readdirSync( './');
-console.log(files); // [ 'Module.js' ]
-// Asynchronous readdir
-fs.readdir('./', (err, files2) => {
-    if (err) console.log("Error", err);
-    else console.log('Result', files2);
-});
-
-// write data:
-const bookJSON = JSON.stringify({title: 'Crime and Punishment'});
-fs.writeFileSync('file.json', bookJSON);
-// read data:
-const dataBuffer = fs.readFileSync('file.json');
-const data = JSON.parse(dataBuffer.toString());
-
 // Events Module: [Event: A signal that something has happened.]
 const EventEmitter = require('events');
 const emitter = new EventEmitter();
