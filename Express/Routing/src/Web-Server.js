@@ -5,6 +5,7 @@ const app = express(); // WE SHOULD HAVE A SINGLE INSTANCE OF THAT IN OUR APPLIC
 require('dotenv').config(); // for using .env (.env placed in the root of this file)
 
 const publicDirectoryPath = path.join(__dirname, '../public');
+// Also we can use => process.cwd() === __dirname === path.dirname(__filename)
 
 app.use(express.json()); // This is a built-in middleware function. It parses incoming requests with JSON payloads.
 app.use(express.static(publicDirectoryPath));

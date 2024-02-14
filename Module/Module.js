@@ -37,6 +37,8 @@ it wraps code inside this:
 (function(exports, module, __filename, __dirname) {code}) => IIFE
 and then, execute it.
  */
+// __dirname: The directory name of the current module.
+// __filename: This is the current module file's absolute path.
 
 // Path Module:
 const path = require('path');
