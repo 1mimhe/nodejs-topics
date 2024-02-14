@@ -1,73 +1,134 @@
 // CRUD: Create Read Update Delete
 
-const {MongoClient, ObjectID} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 
 const connectionURL = 'mongodb://127.0.0.1:27017/';
 const databaseName = 'mydb';
+const client = new MongoClient(connectionURL);
 
-MongoClient.connect(connectionURL, (error, client) => {
-    if (error) {
-        return console.log('Unable to connect to database!');
-    }
-
+async function MDB() {
+    // connect to db
+    await client.connect().then(() => {
+        console.log('Connected to MongoDB.');
+    });
     const db = client.db(databaseName);
 
-    // create
-    db.collection('users').insertOne({
+    // get collection
+    const users = db.collection('users');
+    const tasks = db.collection('tasks');
+
+    // create (insert)
+    users.insertOne({
         name: 'Andrew',
         age: 27
-    }).then((error, result) => {
-        if (error) {
-            return console.log('Unable to insert user.');
-        }
-
+    }).then((result) => {
         console.log(result);
+        // {
+        //   acknowledged: true,
+        //   insertedId: new ObjectId("65cd152e7e9dc6551cd8f632")
+        // }
     });
 
-    db.collection('tasks').insertMany([
+    const insertResult = await tasks.insertMany([
         {
             description: 'Clean the house',
             completed: true
-        },{
+        }, {
             description: 'Renew inspection',
             completed: false
-        },{
+        }, {
             description: 'Pot plants',
             completed: false
         }
-    ], (error, result) => {
-        if (error) {
-            return console.log('Unable to insert tasks!');
-        }
+    ]);
+    console.log(insertResult);
+    // {
+    //   acknowledged: true,
+    //   insertedCount: 3,
+    //   insertedIds: {
+    //     '0': new ObjectId("65cd159d294da654266d6d82"),
+    //     '1': new ObjectId("65cd159d294da654266d6d83"),
+    //     '2': new ObjectId("65cd159d294da654266d6d84")
+    //   }
+    // }
 
-        console.log(result);
-    });
-
-    // read
-    db.collection('tasks').find({ completed: false }).toArray((error, tasks) => {
-        console.log(tasks)
-    });
+    // read (find) => findOne/ find(many)
+    const findResult = await tasks.find({}).toArray();
+    console.log(findResult);
 
     // update
-    db.collection('users').updateOne({
-        _id: new ObjectID("5c0fe6634362c1fb75b9d6b5") // must send an objectID, not a string.
+    users.updateOne({
+        _id: new ObjectId("65cd14859086625e4da566dc") // must send an objectID, not a string.
     }, {
         $inc: {
             age: 1
         }
     }).then((result) => {
-        console.log(result)
+        console.log(result);
+        // {
+        //   acknowledged: true,
+        //   modifiedCount: 1,
+        //   upsertedId: null,
+        //   upsertedCount: 0,
+        //   matchedCount: 1
+        // }
     }).catch((error) => {
-        console.log(error)
+        console.log(error);
     });
+    // Update Operations (https://www.mongodb.com/docs/manual/reference/operator/update/):
+    // $addToSet:
+    // Adds elements to an array only if they do not already exist in the set.
+    // $pop:
+    // Removes the first or last item of an array.
+    // $pull:
+    // Removes all array elements that match a specified query.
+    // $push:
+    // Adds an item to an array.
+    // $pullAll:
+    // Removes all matching values from an array.
+    // $currentDate:
+    // Sets the value of a field to current date, either as a Date or a Timestamp.
+    // $inc:
+    // Increments the value of the field by the specified amount.
+    // $min:
+    // Only updates the field if the specified value is less than the existing field value.
+    // $max:
+    // Only updates the field if the specified value is greater than the existing field value.
+    // $mul:
+    // Multiplies the value of the field by the specified amount.
+    // $rename:
+    // Renames a field.
+    // $set:
+    // Sets the value of a field in a document.
+    // $setOnInsert:
+    // Sets the value of a field if an update results in an insert of a document. Has no effect on update operations that modify existing documents.
+    // $unset:
+    // Removes the specified field from a document.
 
-    // delete
-    db.collection('tasks').deleteOne({
+    // delete: does not return deleted document!
+    tasks.deleteOne({
         description: "Clean the house"
     }).then((result) => {
         console.log(result);
+        // { acknowledged: true, deletedCount: 1 }
     }).catch((error) => {
         console.log(error);
     });
 
-}).then(() => console.log('Connected to MongoDB...'));
+    const result = await tasks.findOneAndDelete({
+        description: "Clean the house"
+    });
+    console.log(result);
+    // {
+    //   _id: new ObjectId("65cd1504ed31534b2e2da201"),
+    //   description: 'Clean the house',
+    //   completed: true
+    // }
+}
+
+MDB();
+
+// if our document has an object itself:
+// {address: {country: "Iran", city: "Isfahan"}}
+// in filter, we point to it:
+// {"address.city" = "Isfahan"}
