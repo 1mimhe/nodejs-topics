@@ -69,20 +69,6 @@ async function getCourse() {
     console.log(foundCourses);
 }
 
-// Query Operators (https://www.mongodb.com/docs/manual/reference/operator/query/)
-// Logical:
-// $and: { scores: 75, name: "Greg Powell" }
-// $or: { $or: [ { version: 4 }, { name: "Andrea Le" } ] }
-// $not: { name: { $not: { $eq: "Andrea Le" } } }
-// Comparison:
-// Ex: { version: { $gte: 2, $lte: 4 } }
-// Others: $eq, $gt, $gte, $lt, $lte, $ne, $in, $nin
-// { price: { $in: [10, 15, 20] } }
-// Match By Date:
-// { dateCreated: { $gt: Date('2000-06-22') } }
-// Match by Array Conditions:
-// Ex: { scores: { $elemMatch: { $gt: 80, $lt: 90 } } }
-
 // Regular Expression(RegEx) --> /pattern/
 // Starts with:
 // { author: /^pattern/ }
@@ -141,7 +127,3 @@ async function deleteCourse(id) {
     // const course = Course.findByIdAndRemove(id);
     console.log(course);
 }
-
-// mongoimport command is used to import your content from an extended JSON, ...
-// mongoimport --db <db-name> --collection <collection-name> --file <file-name>
-// mongoexport --db <db-name> --collection <collection-name> --out=<file-name>

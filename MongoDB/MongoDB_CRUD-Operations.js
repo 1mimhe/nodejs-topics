@@ -53,8 +53,31 @@ async function MDB() {
     // }
 
     // read (find) => findOne/ find(many)
-    const findResult = await tasks.find({}).toArray();
+    const findResult = await tasks.find({ /*age: 27*/ }, {
+        skip: 2,
+        limit: 1,
+        sort: { _id: -1 }, // -1: Descending, 1: Ascending
+        // fields to either include or exclude (one of, not both).
+        projection: {
+            // age: 0 => exclude
+            // name: 1 => include
+        }
+    }).toArray();
     console.log(findResult);
+
+    // Query Operators (https://www.mongodb.com/docs/manual/reference/operator/query/)
+    // Logical:
+    // $and: { scores: 75, name: "Greg Powell" }
+    // $or: { $or: [ { version: 4 }, { name: "Andrea Le" } ] }
+    // $not: { name: { $not: { $eq: "Andrea Le" } } }
+    // Comparison:
+    // Ex: { version: { $gte: 2, $lte: 4 } }
+    // Others: $eq, $gt, $gte, $lt, $lte, $ne, $in, $nin
+    // { price: { $in: [10, 15, 20] } }
+    // Match By Date:
+    // { dateCreated: { $gt: Date('2000-06-22') } }
+    // Match by Array Conditions:
+    // Ex: { scores: { $elemMatch: { $gt: 80, $lt: 90 } } }
 
     // update
     users.updateOne({
@@ -75,6 +98,7 @@ async function MDB() {
     }).catch((error) => {
         console.log(error);
     });
+
     // Update Operations (https://www.mongodb.com/docs/manual/reference/operator/update/):
     // $addToSet:
     // Adds elements to an array only if they do not already exist in the set.
@@ -124,6 +148,26 @@ async function MDB() {
     //   description: 'Clean the house',
     //   completed: true
     // }
+
+    // aggregate: run a series of operations on a collection of items.
+    const aggResult = await users.aggregate([
+        {
+            $match: {
+                name: "Mammad"
+            }
+        },
+        {
+            $addFields: {
+                "userAge": "$age"
+            }
+        },
+        {
+            $project: {
+                age: 0
+            }
+        }
+    ]).toArray();
+    console.log(aggResult);
 }
 
 MDB();
@@ -132,3 +176,8 @@ MDB();
 // {address: {country: "Iran", city: "Isfahan"}}
 // in filter, we point to it:
 // {"address.city" = "Isfahan"}
+
+// Mongo import/export:
+// mongoimport command is used to import your content from an extended JSON, ...
+// mongoimport --db <db-name> --collection <collection-name> --file <file-name>
+// mongoexport --db <db-name> --collection <collection-name> --out=<file-name>
