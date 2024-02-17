@@ -40,25 +40,6 @@ and then, execute it.
 // __dirname: The directory name of the current module.
 // __filename: This is the current module file's absolute path.
 
-// Path Module:
-const path = require('path');
-const pathObject = path.parse(__filename);
-/*
-{
-  root: 'M:\\',
-  dir: 'M:\\Coding\\Node.js\\Node.js_Topics\\Module', // directory of the folder contains file.
-  base: 'Module.js',
-  ext: '.js', // extension
-  name: 'Module'
-}
-*/
-
-// OS (Operating System) Module:
-const os = require('os');
-const totalMemory = os.totalmem();
-const freeMemory = os.freemem();
-console.log(totalMemory, freeMemory);
-
 // Events Module: [Event: A signal that something has happened.]
 const EventEmitter = require('events');
 const emitter = new EventEmitter();
