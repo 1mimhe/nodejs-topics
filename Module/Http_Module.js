@@ -3,7 +3,10 @@ const http = require('http');
 const server = http.createServer((request, response) => {
     // url => web address
     // here => address in localhost
-    if (request.url === '/') {
+
+    const { url, method } = request;
+
+    if (url === '/' && method === "GET") {
         // response:
         //  specify header:
         response.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -11,18 +14,18 @@ const server = http.createServer((request, response) => {
         response.end(); // response.end('Hello World');
     }
 
-    if (request.url === '/html') {
+    if (url === '/html') {
         response.writeHead(200, { 'Content-Type': 'text/html' }); // not necessary
         response.end('<h1>Hello HTML</h1>'); // it parses text (not html page), if the header was text/plain.
     }
 
-    if (request.url === '/json') {
+    if (url === '/json') {
         response.writeHead(200, { 'Content-Type': 'application/json' }); // not necessary
         response.write(JSON.stringify([1, 2, 3])); // just accept string as argument.
         response.end();
     }
 
-    if (request.url === '/xml') {
+    if (url === '/xml') {
         response.writeHead(200, { 'Content-Type': 'text/xml' });
         response.write("<XML><KEY>I'm a key.</KEY></XML>>");
         response.end();

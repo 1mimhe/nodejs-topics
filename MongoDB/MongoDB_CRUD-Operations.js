@@ -16,6 +16,7 @@ async function MDB() {
     // get collection
     const users = db.collection('users');
     const tasks = db.collection('tasks');
+    // or we can do this => db.collection("---").find({});
 
     // create (insert)
     users.insertOne({
