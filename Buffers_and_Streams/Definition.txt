@@ -1,0 +1,9 @@
+a Buffer is a way to store and manipulate binary data in Node.js.
+Examples of binary data include images, audio and video files, and raw data from a network.
+
+Streams are a fundamental concept in Node.js applications,
+enabling efficient data handling by reading or writing input and output sequentially.
+They are handy for file operations, network communications,
+and other forms of end-to-end data exchange.
+
+TCP => RabbitMQ, WebSocket, Kafka, gRPC, FileSystem => use buffer
