@@ -15,6 +15,7 @@ readStreamData.on('data', (chunk) => {
     console.log("#" + ++counter + " Chunk of the data received:");
     console.log(chunk);
     buff.push(chunk);
+    // write: writeStreamData.write(chunk);
 });
 
 readStreamData.on("error", (err) => {
