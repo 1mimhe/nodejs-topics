@@ -1,14 +1,16 @@
-const path = require('path');
-const Joi = require('joi');
 const express = require('express');
 const app = express(); // WE SHOULD HAVE A SINGLE INSTANCE OF THAT IN OUR APPLICATION.
+const path = require('path');
+const Joi = require('joi');
 require('dotenv').config(); // for using .env (.env placed in the root of this file)
 
 const publicDirectoryPath = path.join(__dirname, '../public');
 // Also we can use => process.cwd() === __dirname === path.dirname(__filename)
 
 app.use(express.json()); // This is a built-in middleware function. It parses incoming requests with JSON payloads.
+app.use(express.urlencoded()); // Same as previous, for URL-Encoded payloads.
 app.use(express.static(publicDirectoryPath));
+// because of using static asserts place and 'index.html' assert, root handler never will be run.
 
 const courses = [
     {id: 1, name: 'Course1'},
@@ -32,13 +34,34 @@ app.get('/', (req, res) => {
 // because of using static asserts place and 'index.html' assert, root handler never will be run.
 
 // route parameters (essential/required data) => /:param1/:param2/...
-// query string parameters (additional data) => /:params?param1=name&param2=id$...
+// query string parameters (additional data) => /:params?param1=name&param2=id&... => req.query
+// we have built-in 'querystring' package. (parse/stringify)
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === Number(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID was not found.');
     res.send(course);
 });
 // http://localhost:3000/api/courses/1000?sortBy=popularity => req.query: {"sortBy":"popularity"}
+
+// b is optional => acd, abcd
+app.get('/ab?cd', (req, res) => {
+   res.status(200).send('Accepted(?): ' + req.url);
+});
+
+// bc is optional => ade, abcde
+app.get('/a(bc)?de', (req, res) => {
+    res.status(200).send('Accepted(?): ' + req.url);
+});
+
+// minimum one b => abcd, abbcd, ...
+app.get('/ab+cd', (req, res) => {
+    res.status(200).send('Accepted(+): ' + req.url);
+});
+
+// every route starts with 'ab' and ends with 'cd' => abphnskmcd, ....
+app.get('/ab*cd', (req, res) => {
+    res.status(200).send('Accepted(*): ' + req.url);
+});
 
 // 404 Page
 // * => match anything that hasn't been matched so far.
