@@ -22,6 +22,7 @@
     "lodash": "^4.17.21",
     "mongodb": "^6.0.0",
     "mongoose": "^7.4.4",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^2.6.12",
     "request": "^2.88.2",

@@ -5,6 +5,7 @@ const app = express();
 Middleware functions are functions that have access to the request object (req),
 the response object (res), and the next middleware function in the application’s request-response cycle.
 The next middleware function is commonly denoted by a variable named next.
+They are executed based on the order of placement in the code.
  */
 /*
 app.use([path, ] callback [, callback...]):
@@ -43,3 +44,25 @@ app.use(express.static('pio'));
 // *** In project, we put asserts in a folder named 'public'.
 
 // Third-party Middlewares => https://expressjs.com/en/resources/middleware.html
+
+// Morgan
+const morgan = require('morgan');
+app.use(morgan('dev')); // GET / 200 6.177 ms - 2
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+// GET / 200 2 - 6.177 ms
+
+app.get('/', (req, res) => {
+    res.send(req.body);
+});
+
+app.listen(3000);
+
+// Error Handling:
+app.use((err, req, res, next) => {
+    return res.json({
+        statusCode: err.status || 500,
+        error: {
+            message: err.message || "internalServerError"
+        }
+    });
+});
