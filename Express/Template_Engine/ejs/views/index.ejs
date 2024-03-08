@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <!--we can access partials-->
+    <%-include("./partials/_header", {title: "Home"})%>
+    <!-- also, we can parse variables here. -->
+
+    <!-- we can use html tags with a variable.-->
+    <%-h1%>
+    <!-- or we can show the content of that variable with html tag.-->
+    <%=h1%>
+
+    <%-include("./partials/_blog")%>
+
+    <!--we can access variables we provided to the template-->
+    <h2>Created by <%-name%></h2>
+</body>
+</html>

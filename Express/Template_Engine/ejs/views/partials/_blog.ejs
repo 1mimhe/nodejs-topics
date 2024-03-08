@@ -1,0 +1,26 @@
+<!-- loop -->
+<%blogs.forEach(blog => {%>
+<div>
+    <h3><%=blog.title%></h3>
+    <div>
+        <p>Author: <%=blog.author%></p>
+        <p>Likes:
+            <%if(blog.likes > 40) {%>
+                <%=blog.likes%>
+            <%} else {%>
+                some likes
+            <%}%>
+        </p>
+        <p>Comments: <%=blog.comments%></p>
+    </div>
+    <p><%=blog.text%></p>
+    <a href="">Read More...</a>
+</div>
+<hr/>
+<%})%>
+
+<!--
+we can use js statements between <%%>
+if, else
+or another kind of loops.
+-->

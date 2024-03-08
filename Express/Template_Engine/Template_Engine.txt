@@ -2,3 +2,14 @@ Template Engines:
 We generate dynamic documents and save the dynamically generated content in a file.
 We can create code easily and reuse it across the pages.
 *** pug, EJS, handlebars(hbs), ...
+
+We usually use it for CMS (Content management system) softwares.
+
+There is no need to implement these pages using front-end technologies.
+We design those parts by simply using ready codes about the management panel
+and converting it to one of the template engines.
+
+SSR:
+SSR, short for Server-Side Rendering,
+is a technique in web development where the webpage's content is rendered on the server
+instead of the client's browser.
