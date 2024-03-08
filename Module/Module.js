@@ -30,6 +30,9 @@ const foo = require('path');
 // parameter => path of module file [or] module name (for core modules)
 // => returns 'exports' object of that module.
 
+// import an ES6 module in CommonJS:
+const camelCase = (...args) => import("camelcase-keys").then(({default: camelcaseKeys}) => camelcaseKeys(...args));
+
 /*
 Module Wrapper Function:
 node.js doesn't execute code directory!
