@@ -4,9 +4,11 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/static/style.css")
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css")
         title Pug Template Engine
     body
-        div
+        include partials/_nav
+        div.container
             header.red
                 h2 Pug Template Engine
             section
@@ -23,7 +25,4 @@ html(lang="en")
                 br
                 each value, key in {a: "pio", b: "bio"}
                     li #{key} : #{value}
-            footer
-                h3.yellow footer section
-                p
-                    a(href=link, target="_blank") Google
+            include partials/_footer
