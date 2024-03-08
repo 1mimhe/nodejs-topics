@@ -1,0 +1,4 @@
+Template Engines:
+We generate dynamic documents and save the dynamically generated content in a file.
+We can create code easily and reuse it across the pages.
+*** pug, EJS, handlebars(hbs), ...
