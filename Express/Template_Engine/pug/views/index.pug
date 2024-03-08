@@ -3,18 +3,22 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(rel="stylesheet", href="/static/style.css")
+        link(rel="stylesheet", href="style.css")
         link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css")
         title Pug Template Engine
     body
+        // add partials
         include partials/_nav
         div.container
+            // .x => class name
             header.red
                 h2 Pug Template Engine
             section
+                // #{variable}
                 h2.blue #{section}
                 p.violet Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consequatur dicta iusto magni maiores maxime neque tenetur! Ab distinctio explicabo fugiat obcaecati omnis quibusdam sed voluptatem. Harum quod, ullam. Quam.
                 table(border="1")
+                    // loop
                     each user in users
                         tr
                             td #{user.id}
