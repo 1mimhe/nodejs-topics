@@ -1,0 +1,14 @@
+<!-- loop -->
+{{#each blogs}}
+    <div>
+        <h3>{{this.title}}</h3>
+        <div>
+            <p>Author: {{this.author}}</p>
+            <p>Likes: {{this.likes}}</p>
+            <p>Comments: {{this.comments}}</p>
+        </div>
+        <p>{{this.text}}</p>
+        <a href="">Read More...</a>
+    </div>
+    <hr/>
+{{/each}}

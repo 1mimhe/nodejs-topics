@@ -1,12 +1,8 @@
-// Templating Engines:
-// We generate dynamic documents and save the dynamically generated content in a file.
-// We can create code easily and reuse it across the pages.
-// *** handlebars (hbs)
-
 const path = require('path');
 const express = require('express');
 const app = express();
 const hbs = require('hbs'); // for customize partials directory
+const blogs = require('../blogs.json');
 
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
@@ -14,7 +10,7 @@ const partialsPath = path.join(__dirname, '../templates/partials');
 // setting up templating engine
 app.set('view engine', 'hbs'); // we tell Express which templating engine we install.
 // customizing the views and partials directory
-app.set('views', viewsPath);
+app.set('views', viewsPath); // default => in root, in 'views' folder.
 hbs.registerPartials(partialsPath);
 
 // render a view
@@ -23,7 +19,8 @@ app.get('/', (req, res) => {
     // values we provide to template.
     res.render('index', {
         title: 'Weather App',
-        name: 'Mammad'
+        name: 'Mammad',
+        blogs
     });
 });
 

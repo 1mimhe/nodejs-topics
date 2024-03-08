@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <!--we can access partials-->
+    {{>_header}}
+    <h2>Blog</h2>
+    {{>_blog}}
+    <!--we can access variables we provided to the template-->
+    <h2>Created by {{name}}</h2>
+</body>
+</html>
