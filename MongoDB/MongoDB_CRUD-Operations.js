@@ -66,20 +66,6 @@ async function MDB() {
     }).toArray();
     console.log(findResult);
 
-    // Query Operators (https://www.mongodb.com/docs/manual/reference/operator/query/)
-    // Logical:
-    // $and: { scores: 75, name: "Greg Powell" }
-    // $or: { $or: [ { version: 4 }, { name: "Andrea Le" } ] }
-    // $not: { name: { $not: { $eq: "Andrea Le" } } }
-    // Comparison:
-    // Ex: { version: { $gte: 2, $lte: 4 } }
-    // Others: $eq, $gt, $gte, $lt, $lte, $ne, $in, $nin
-    // { price: { $in: [10, 15, 20] } }
-    // Match By Date:
-    // { dateCreated: { $gt: Date('2000-06-22') } }
-    // Match by Array Conditions:
-    // Ex: { scores: { $elemMatch: { $gt: 80, $lt: 90 } } }
-
     // update
     users.updateOne({
         _id: new ObjectId("65cd14859086625e4da566dc") // must send an objectID, not a string.
@@ -99,36 +85,6 @@ async function MDB() {
     }).catch((error) => {
         console.log(error);
     });
-
-    // Update Operations (https://www.mongodb.com/docs/manual/reference/operator/update/):
-    // $addToSet:
-    // Adds elements to an array only if they do not already exist in the set.
-    // $pop:
-    // Removes the first or last item of an array.
-    // $pull:
-    // Removes all array elements that match a specified query.
-    // $push:
-    // Adds an item to an array.
-    // $pullAll:
-    // Removes all matching values from an array.
-    // $currentDate:
-    // Sets the value of a field to current date, either as a Date or a Timestamp.
-    // $inc:
-    // Increments the value of the field by the specified amount.
-    // $min:
-    // Only updates the field if the specified value is less than the existing field value.
-    // $max:
-    // Only updates the field if the specified value is greater than the existing field value.
-    // $mul:
-    // Multiplies the value of the field by the specified amount.
-    // $rename:
-    // Renames a field.
-    // $set:
-    // Sets the value of a field in a document.
-    // $setOnInsert:
-    // Sets the value of a field if an update results in an insert of a document. Has no effect on update operations that modify existing documents.
-    // $unset:
-    // Removes the specified field from a document.
 
     // delete: does not return deleted document!
     tasks.deleteOne({
