@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/static/style.css")
+        title Pug Template Engine
+    body
+        div
+            header.red
+                h2 Pug Template Engine
+            section
+                h2.blue #{section}
+                p.violet Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consequatur dicta iusto magni maiores maxime neque tenetur! Ab distinctio explicabo fugiat obcaecati omnis quibusdam sed voluptatem. Harum quod, ullam. Quam.
+                table(border="1")
+                    each user in users
+                        tr
+                            td #{user.id}
+                            td #{user.name}
+                br
+                each num in [1, 2, 3, 4]
+                    li=num
+                br
+                each value, key in {a: "pio", b: "bio"}
+                    li #{key} : #{value}
+            footer
+                h3.yellow footer section
+                p
+                    a(href=link, target="_blank") Google
