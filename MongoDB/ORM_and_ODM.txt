@@ -1,0 +1,13 @@
+Object Relational Mapping (ORM) is a technique used in
+creating a bridge between object-oriented programs and databases.
+The mapping describes the connections between objects and various tables.
+ORMs translate data between tables and create the SQL code for a relational database
+to insert, update, create, and delete data (CRUD).
+For Example) TypeORM, Sequelize, Knex.js, ...
+
+Object Document Mapping (ODM) is used to interact with document-based databases, such as MongoDB.
+Usually, when we interact with a MongoDB database, we work directly with the documents in the database,
+which are stored in a format called BSON (a binary version of JSON).
+An ODM, like Mongoose, provides a way to interact with the documents in the database using JavaScript objects.
+With Mongoose, a JavaScript developer can define a schema to represent a "Person" entity,
+and Mongoose will automatically handle all the CRUD operations.
