@@ -81,7 +81,10 @@ app.post('/api/courses', (req, res) => {
     res.send(course); // return what we post to client
 });
 
-app.put('/api/courses/:id', (req, res) => {
+// patch vs. put:
+// patch: when we want update one or more fields.
+// put: when we want update all fields.
+app.patch('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === Number(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID was not found.');
 
