@@ -16,7 +16,7 @@ const courseSchema = new mongoose.Schema({
         maxLength: 250,
         // lowercase: true
         // uppercase: true
-        // trim: true
+        // trim: true => "  ssgkanl  " -> "ssgkanl"
         // match: /pattern/
         // enum: [...] => checks if the value is in the given array.
 
