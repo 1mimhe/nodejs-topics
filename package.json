@@ -33,6 +33,7 @@
     "replicate": "^0.29.1",
     "request": "^2.88.2",
     "serve-favicon": "^2.5.0",
+    "serve-index": "^1.9.1",
     "sharp": "^0.32.6",
     "validate": "^5.2.0",
     "validator": "^13.11.0",
