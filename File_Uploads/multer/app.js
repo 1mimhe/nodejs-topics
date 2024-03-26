@@ -1,24 +1,11 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
 const upload = require("./middlewares/multer");
-const sharp = require('sharp');
-
-// mongoose.connect('mongodb://127.0.0.1:27017/test')
-//     .then(() => console.log("Connected to MongoDB."));
-//
-// const User = mongoose.model('User', new mongoose.Schema({
-//     name: String,
-//     avatar: Buffer
-// }));
 
 app.use(express.static("uploads"));
 
 // upload.single(): Accept a single file with the name fieldname (the field in html form).
 app.post('/users/me/avatar', upload.single('avatar'), async (req, res) => {
-    // const standardBuffer =
-    //     await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
-
     // our file, encode to binary data.
     // req.file is the `avatar` file => When the destination is not set, we can use it.
     // req.body will hold the text fields if there were any.
