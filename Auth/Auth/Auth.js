@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const {MongoCursorInUseError} = require("mongodb");
 
 // checking for environment variable existence
 if (!config.get('jwtPrivateKey')) {
