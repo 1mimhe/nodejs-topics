@@ -85,12 +85,7 @@ app.post('/api/register', async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already registered.');
 
-    // we hash(encrypt) password, then store it to a database.
-    // the algorithm that hash password is not reversible.
-    // salt: is a random string that added before or after the password.
-    // first argument: number of rounds to use, defaults to 10 if omitted.
-    // second argument: Salt length to generate or salt to use.
-    const salt = await bcrypt.genSalt(10); // Number of rounds to use, defaults to 10 if omitted.
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     user = new User({
