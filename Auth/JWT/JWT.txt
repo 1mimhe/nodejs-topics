@@ -1,6 +1,7 @@
 JSON Web Token (JWT) is an open standard that defines
-a compact and self-contained way for securely transmitting information between parties as a JSON object.
+a compact and self-contained way for securely transmitting information between parties as a (hashed) JSON object.
 This information can be verified and trusted because it is digitally signed.
+
 Signed tokens: though protected against tampering,
 is readable by anyone. Do not put secret information in the payload or header elements of a JWT unless it is encrypted.
 
@@ -16,7 +17,7 @@ using public/private key pairs—you can be sure the senders are who they say th
 Additionally, as the signature is calculated using the header and the payload,
 you can also verify that the content hasn't been tampered with.
 
-*** We should not store tokens in a database. (if we do, we should encrypt that.[we can use https])
+*** We should not store tokens in a database. (if we do, we should encrypt that. [we can use https])
 we store them in the client.
 
 JWT Structure:
@@ -39,9 +40,11 @@ There are three types of claims: registered, public, and private claims.
   "name": "John Doe",
   "admin": true
 }
+*** Don't put important information in the payload.
+Because everyone can decode jwt without the secret.
 
 Signature:
-To create the signature part you have to take the encoded header,
+To create the signature part: you have to take the encoded header,
 the encoded payload, a secret, the algorithm specified in the header, and sign that.
 
 ***
