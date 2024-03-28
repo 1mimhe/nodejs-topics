@@ -1,0 +1,10 @@
+Bearer (Token) Auth:
+first req => verify => ✔ => res.header("Authorization", "Bearer <token>") [In Authorization header]
+other reqs => req.header(Authorization) => token => if was valid => req✔
+
+API-Key:
+queryString => https://domain.com/?api-key=<token>
+headers => X-API-KEY: <token>
+cookie => ...
+
+*** Bearer Tokens are used for authentication purposes, while API Keys are used for authorization purposes.

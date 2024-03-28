@@ -1,8 +1,0 @@
-Bearer:
-first req => verify => ✔ => res.header("Authorization", "Bearer <jwt-token>")
-other reqs => req.header(Authorization) => jwt-token => if was valid => req✔
-
-API-Key:
-queryString => https://domain.com/?api-key=<token>
-headers => X-API-KEY: <token>
-

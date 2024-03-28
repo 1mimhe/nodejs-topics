@@ -1,3 +1,7 @@
+// https://en.wikipedia.org/wiki/Basic_access_authentication
+// Basic (Traditional) Auth
+// req.header("Authorization", "Basic <username:password>")
+
 const express = require("express");
 const app = express();
 
