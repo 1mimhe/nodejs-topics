@@ -1,0 +1,16 @@
+When a user logins in, the authorization server issues an access token,
+which is an artifact that client applications can use to make secure calls to an API server.
+When a client application needs to access protected resources on a server on behalf of a user,
+the access token lets the client signal to the server
+that it has received authorization by the user to perform certain tasks or access certain resources.
+
+There are different ways that a client application can get a new access token for a user.
+For example, once an access token expires,
+the client application could prompt the user to log in again to get a new access token.
+Alternatively, the authorization server could issue a refresh token to the client application
+that lets it replace an expired access token with a new one.
+
+As mentioned, for security purposes, access tokens may be valid for a short amount of time.
+Once they expire, client applications can use a refresh token to "refresh" the access token.
+That is, a refresh token is a credential artifact
+that lets a client application get new access tokens without having to ask the user to log in again.

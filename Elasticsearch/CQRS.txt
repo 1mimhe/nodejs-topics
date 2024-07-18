@@ -1,0 +1,14 @@
+Command and Query Responsibility Segregation:
+A pattern that separates read and update operations for a data store.
+* Command: Write, Update, Delete
+* Query: Just Read (Not have join, aggregate, ...)
+
+We can physically separate the read data from the write data.
+In that case, the read database can use its own data schema that is optimized for queries.
+It might even use a different type of data store.
+
+* Read and write must be kept sync.
+
+* Save data in DB => For write data.
+** Save a copy of the data (Don't have complexity like ObjectId) in Elastic => For faster read data.
+*** If we update a data => Update the copy too.

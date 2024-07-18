@@ -1,0 +1,53 @@
+- Logstash and Beats facilitate collecting, aggregating, and enriching your data and storing it in Elasticsearch.
+- Kibana enables you to interactively explore, visualize, and share insights into your data and manage and monitor the stack.
+- Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack.
+* Elasticsearch is where the indexing, search, and analysis magic happens.
+* Elasticsearch provides near real-time search and analytics for all types of data.
+    Whether you have structured or unstructured text, numerical data, or geospatial data,
+    Elasticsearch can efficiently store and index it in a way that supports fast searches.
+* It’s able to achieve fast search responses because instead of searching the text directly,
+    it searches an index. It uses a structure based on documents instead of tables and schemas
+    and comes with extensive REST APIs for storing and searching the data.
+-----------------------------------------------------------------------------------------------------------------------
+Logical Concept:
+- Document:
+    Documents are the basic unit of information that can be indexed in Elasticsearch expressed in JSON.
+- Index (Indices):
+    An index is a collection of documents that have similar characteristics.
+    An index is the highest level entity that you can query against in Elasticsearch.
+    An index is identified by a name.
+    (that is used to refer to the index while performing indexing, search, update, and delete operations)
+- Inverted Index (Index in Elasticsearch):
+    An index in Elasticsearch is actually what’s called an inverted index.
+    It is a data structure that stores a mapping from content,
+    such as words or numbers, to its locations in a document or a set of documents.
+    An inverted index doesn’t store strings directly and instead splits each document
+    up to individual search terms (i.e. each word)
+    then maps each search term to the documents those search terms occur within.
+    By using distributed inverted indices, Elasticsearch quickly finds the best matches
+    for full-text searches from even very large data sets.
+-----------------------------------------------------------------------------------------------------------------------
+Backend Components:
+- Cluster:
+    An Elasticsearch cluster is a group of one or more node instances that are connected together.
+    The power of an Elasticsearch cluster
+    lies in the distribution of tasks, searching, and indexing, across all the nodes in the cluster.
+- Node:
+    A node stores data and participates in the cluster’s indexing and search capabilities.
+    - Master Node:
+        Controls the Elasticsearch cluster and is responsible for all cluster-wide operations
+        like creating/deleting an index and adding/removing nodes.
+    - Data Node:
+        Stores data and executes data-related operations such as search and aggregation.
+    - Client Node:
+        Forwards cluster requests to master node and data-related requests to data nodes.
+- Shards:
+    Elasticsearch provides the ability to subdivide the index into multiple pieces called shards.
+    Elasticsearch distributing the documents in an index across multiple shards,
+    and distributing those shards across multiple nodes (within a single cluster).
+    * Nodes required in a cluster increase, when data volume and query increase.
+- Replicas:
+    Replica is a copy of a primary shard. Each document in an index belongs to one primary shard.
+    Replicas provide redundant copies of your data to protect against hardware failure
+    and increase capacity to serve read requests like searching or retrieving a document.
+-----------------------------------------------------------------------------------------------------------------------
