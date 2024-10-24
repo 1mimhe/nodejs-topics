@@ -1,0 +1,64 @@
+GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
+GraphQL provides a complete and understandable description of the data in your API,
+gives clients the power to ask for exactly what they need and nothing more.
+
+Schema:
+type Project {
+  name: String
+  tagline: String
+  contributors: [User]
+}
+
+Query:
+query {
+  blogs <Name of Field> {
+    _id
+    title
+    author {
+      firstName
+      LastName
+    }
+  }
+}
+
+Response:
+{
+  "data": {
+    "blogs": [
+      {
+        "_id": "6708e6c77e663881a3bbe6a8",
+        "title": "Blog Post 1",
+        "author": {
+          "firstName": "John"
+        }
+      }, ...
+    ]
+  }
+}
+
+Mutation: are used to modify (create, update, or delete) data.
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    name
+    email
+  }
+}
+
+GraphQL queries access not just the properties of one resource but also smoothly follow references between them.
+While typical REST APIs require loading from multiple URLs
+GraphQL APIs get all the data your app needs in a single request.
+Apps using GraphQL can be quick even on slow mobile network connections.
+
+GraphQL APIs are organized in terms of types and fields, not endpoints.
+GraphQL enforces the use of a schema, But REST does not.
+GraphQL uses the 200 status code for all responses.
+
+GraphQL operations => Queries and Mutations
+
+* Concepts:
+- Resolvers:
+Resolvers are the heart of a GraphQL server.
+They are functions responsible for fetching and transforming data to respond to GraphQL queries and mutations.
+When a client sends a GraphQL query, the server uses the schema to determine the required data
+and then calls the resolvers to retrieve and process that data.

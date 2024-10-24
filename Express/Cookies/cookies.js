@@ -42,6 +42,10 @@ app.get("/get-cookies", (req, res) => {
 });
 
 app.get("/delete-cookies", (req, res) => {
+    // Web browsers and other compliant clients will only clear the cookie
+    // if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
+    // res.cookie('name', 'tobi', { path: '/admin' })
+    // res.clearCookie('name', { path: '/admin' })
     res.clearCookie("cookieName");
     res.send("Cookies have been deleted successfully.");
 });

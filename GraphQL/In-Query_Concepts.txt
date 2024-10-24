@@ -1,0 +1,111 @@
+Aliases: let us set custom field names in custom queries.
+We can directly query for the same field with different arguments.
+
+query getPosts {
+    posts: posts {
+        id, ...
+    }
+    comments: posts {
+        id, ...
+    }
+}
+***
+{
+    "data": {
+        "p": [
+        {
+            "id": ...
+        },
+        ],
+        "c": [
+        {
+            "id": ...
+        }
+        ]
+    }
+}
+
+
+Fragmentation: let us construct sets of fields, and then we include them in queries where we need to.
+** Frontend developers more use of it.
+{
+    leftComparison: hero(episode: EMPIRE) {
+        ...comparisonFields
+    }
+    rightComparison: hero(episode: JEDI) {
+        ...comparisonFields
+    }
+}
+
+# fragment <Name of fragment> on <Name of type>
+fragment comparisonFields on Character {
+    name
+    appearsIn
+    friends {
+        name
+    }
+}
+
+Or...
+Inline fragment:
+
+{
+    hero(episode: EMPIRE) {
+        ... on Character {
+            name
+            appearsIn
+            friends {
+                name
+            }
+        }
+    }
+}
+
+
+Operation name: 
+query HeroNameAndFriends {}
+
+Variables: we can make the arguments to fields dynamic.
+
+# = <default value>
+query HeroNameAndFriends($episode: String = "JEDI") {
+    hero(episode: $episode) {
+        name
+        friends {
+        name
+        }
+    }
+}
+
+# Query Variables
+{
+    "episode": "JEDI"
+}
+
+
+Directives: we can change the structure and shape of our queries using variables.
+Default directives:
+@include(if: Boolean!) => Only include this field in the result if the argument is true.
+@skip(if: Boolean) Skip this field if the argument is true.
+@deprecated(reason: String) Marks the schema definition of a field or enum value as deprecated with an optional reason.
+
+query Hero($episode: Episode, $withFriends: Boolean!) {
+    hero(episode: $episode) {
+        name
+        # withFriends = false
+        friends @include(if: $withFriends) {
+            name
+        }
+    }
+}
+
+{
+    "data": {
+        "hero": {
+            "name": "R2-D2"
+        }
+    }
+}
+
+
+! => Indicates a non-nullable value type, it means that value cannot be null.

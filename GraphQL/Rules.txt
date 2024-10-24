@@ -1,0 +1,33 @@
+Rule #1
+Always start with a high-level view of the objects and their relationships before you deal with specific fields.
+
+Rule #2
+Never expose implementation details in your API design. Users don't care.
+
+Rule #3
+It's Easier to Add Fields than to Remove Them. So don't overdo it.
+
+Rule #4
+Group Closely-Related Fields Together into Sub-Objects.
+For example, if one of the fields does not exist, the other not exist either.
+
+Rule #5
+Always check whether list fields should be paginated or not.
+When we have a large amount of data of a type, it is not necessary to return it all at once.
+Pagination => blogs(page: Int!, limit: Int!): [Blog]
+
+Rule #6
+Always use object references instead of ID fields (ID just for the object itself). User don't use it, he want some real fields.
+
+Rule #7
+Use Enums for Fields that can Only Take a Specific Set of Values.
+
+Rule #8
+Your API Should Provide Business Logic, Not Just Data.
+
+Rule #9
+Write Separate Mutations for Separate Logical Actions on a Resource.
+In addition to the general update of an object. It is also possible to update a specific field (Like publish or unpublish).
+
+Rule #10
+Mutations Should Provide UserBusiness Level Errors. We should definition a response type with message field ,...
