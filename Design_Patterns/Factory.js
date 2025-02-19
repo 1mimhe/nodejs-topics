@@ -1,6 +1,7 @@
 // The Factory pattern offers a way to create objects without specifying the exact class of object that will be created.
-//  In a Node.js context, this can simplify object creation,
+// In a Node.js context, this can simplify object creation,
 // especially when dealing with asynchronous operations such as reading files or making API calls.
+// Also called Builder.
 
 class Car {
     constructor(model, price) {
