@@ -6,3 +6,4 @@
 /node_modules/
 /Testing/node_modules/
 /Buffers_and_Streams/Upload/node_modules
+package-lock.json
