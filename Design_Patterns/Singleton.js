@@ -4,19 +4,20 @@
 const { MongoClient } = require("mongodb");
 
 class ConnectToMongoDB {
-    #connectionURL="mongodb://localhost:27017/";
-    #db = null;
+    static #connectionURL="mongodb://localhost:27017/";
+    static #db = null;
 
-    async #connect(){
+    static async #connect(){
         try {
             let client = new MongoClient(this.#connectionURL);
+            await client.connect();
             return client.db();
         } catch (error) {
             console.log(error.message);
         }
     }
 
-    async get() {
+    static async getInstance() {
         try {
             if(this.#db){
                 console.log("db connection is already alive.");
@@ -31,10 +32,7 @@ class ConnectToMongoDB {
     }
 }
 
-async function main() {
-    const db = await new ConnectToMongoDB().get();
-    const users = await db.collection("user").find({}).toArray();
-    console.log(users);
-}
-
-main();
+(async () => {
+    const db = await ConnectToMongoDB.getInstance();
+    console.log("Connected to MongoDB:", db.databaseName);
+})();
