@@ -15,6 +15,13 @@ process.on('unhandledRejection', (e) => {
    throw e; // winston.exceptions.handle will handle that.
 });
 
+process.on('uncaughtException', (err) => {
+    console.error(`Uncaught Exception: ${err.message}`);
+    // Terminates the application with 1 (error) as exit code.
+    // Without the following line, the application would continue
+    // process.exit(1)
+});
+
 winston.add(new winston.transports.File({filename: 'logfile.log'}));
 winston.add(new winston.transports.MongoDB({
     db: 'mongodb://127.0.0.1:27017/test',
