@@ -1,0 +1,22 @@
+1. Add stream events with a system generate id which combines a current timestramp + sequence number (ex. 1720578868-0)
+
+XADD [stream-name] * [key] [value] [key] [value]
+XADD my-stream * temperature 60 node_name node1
+
+2. Query a list of events between time frame (ascending order old > new)
+XRANGE [stream-name] [start-time-ms] [end-time-ms]
+XRANGE my-stream 1720580927360 1720580927370
+
+3. Query a list of events between time frame (descending order new > old)
+XREVRANGE [stream-name] [start-time-ms] [end-time-ms]
+
+4. Use - + to replace [start-time-ms] [end-time-ms] to query for all times
+XRANGE [COUNT 1] my-stream - +
+
+5. Get or subscribe to events
+XREAD COUNT [num] BLOCK [ms] STREAMS [stream-name] [ms]
+XREAD COUNT 1 BLOCK 50000 STREAMS my-stream 1720581089061
+
+6. Trim old stream events
+XTRIM [stream-name] MAXLEN [max length]
+XTRIM my-stream MAXLEN 3
