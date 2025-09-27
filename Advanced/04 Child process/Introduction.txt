@@ -1,0 +1,26 @@
+A child process (CP) is a process created by another process (the parent process). This technique pertains to multitasking operating systems, and is sometimes called a subprocess or traditionally a subtask.
+
+There are two major procedures for creating a child process:
+- The fork system call (preferred in Unix-like systems and the POSIX standard)
+- The spawn (preferred in the modern (NT) kernel of Microsoft Windows, as well as in some historical operating systems).
+
+Using multiple processes is the best way to scale a Node application. Node.js is designed for building distributed applications with many nodes. This is why it’s named Node.
+
+The `child_process` module enables us to access Operating System functionalities by running any system command inside a, well, child process.
+
+We can control that child process input stream, and listen to its output stream. We can also control the arguments to be passed to the underlying OS command, and we can do whatever we want with that command’s output (e.g. pipe the output of one command as the input to another).
+
+There are four different ways to create a child process in Node: `spawn()`, `fork()`, `exec()`, and `execFile()`.
+
+The execFile function
+If you need to execute a file without using a shell,
+the execFile function is what you need. It behaves exactly like the exec function,
+but does not use a shell, which makes it a bit more efficient.
+On Windows, some files cannot be executed on their own, like .bat or .cmd files.
+Those files cannot be executed with execFile and either exec or spawn
+with shell set to true is required to execute them.
+
+The *Sync function
+The functions spawn, exec, and execFile from the child_process module
+also have synchronous blocking versions that will wait until the child process exits.
+
