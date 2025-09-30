@@ -1,0 +1,11 @@
+This process manager contains a load balancer and
+can automatically create as many worker processes as CPUs on your machine.
+It also allows you to monitor the processes and can spawn a new worker process automatically if one dies.
+
+$ pm2 start index.js -i 0
+The -i option accepts the number of worker processes you want pm2 to create.
+If you pass the argument 0, pm2 will automatically create as many worker processes as there are CPUs on your machine.
+
+$ pm2 logs
+$ pm2 ls
+$ pm2 delete index.js

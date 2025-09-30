@@ -1,0 +1,17 @@
+Since Node.js uses a single thread to execute your JavaScript code,
+all the requests to the application have to be handled by that thread running on a single CPU.
+That can result in a single process getting overwhelmed if it receives too many requests,
+which can slow down the performance. If the process crashes, users won’t be able to access your application.
+
+As a solution, Node.js introduced the `cluster` module,
+which creates multiple copies of the same application on the same machine and has them running at the same time.
+It also comes with a load balancer that evenly distributes the load among the processes using the round-robin algorithm.
+
+If a single instance crashes, users can be served by the remaining processes that are still running.
+The application’s performance significantly improves because the load is shared among multiple processes evenly,
+preventing a single instance from being overwhelmed.
+
+By creating multiple worker processes, you can take advantage of
+the full capacity of the machine and handle more requests simultaneously.
+
+Allowing you to scale horizontally by adding more instances as needed.
